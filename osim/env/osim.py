@@ -518,13 +518,14 @@ class L2M2019Env(OsimEnv):
         state_desc = self.get_state_desc()
 
         # update contact
-        r_contact = True if state_desc['forces']['foot_r'][1] < 0 else False
-        l_contact = True if state_desc['forces']['foot_l'][1] < 0 else False
+        r_contact = True if state_desc['forces']['foot_r'][1] < -0.05*(self.MASS*self.G) else False
+        l_contact = True if state_desc['forces']['foot_l'][1] < -0.05*(self.MASS*self.G) else False
 
         self.footstep['new'] = False
         if (not self.footstep['r_contact'] and r_contact) or (not self.footstep['l_contact'] and l_contact):
             self.footstep['new'] = True
             self.footstep['n'] += 1
+            import pdb; pdb.set_trace()
 
         self.footstep['r_contact'] = r_contact
         self.footstep['l_contact'] = l_contact
