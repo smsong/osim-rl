@@ -525,7 +525,6 @@ class L2M2019Env(OsimEnv):
         if (not self.footstep['r_contact'] and r_contact) or (not self.footstep['l_contact'] and l_contact):
             self.footstep['new'] = True
             self.footstep['n'] += 1
-            import pdb; pdb.set_trace()
 
         self.footstep['r_contact'] = r_contact
         self.footstep['l_contact'] = l_contact

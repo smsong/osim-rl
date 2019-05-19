@@ -16,14 +16,14 @@ TIMEOUT = 10*60
 init_pose = np.array([1.5, .9, 10*np.pi/180, # forward speed, pelvis height, trunk lean
         -3*np.pi/180, -30*np.pi/180, -10*np.pi/180, 10*np.pi/180, # [right] hip abduct, hip extend, knee extend, ankle extend
         -3*np.pi/180, 5*np.pi/180, -40*np.pi/180, -0*np.pi/180]) # [left] hip abduct, hip extend, knee extend, ankle extend
-        
+
 def f_ind(n_gen, i_worker, params):
     flag_model = '2D'
-    flag_ctrl_mode = '2D' # use 2D
+    flag_ctrl_mode = '2D'
     seed = None
     difficulty = 0
     sim_dt = 0.01
-    sim_t = 20
+    sim_t = 10
     timstep_limit = int(round(sim_t/sim_dt))
 
     init_error = True
@@ -40,7 +40,7 @@ def f_ind(n_gen, i_worker, params):
             print('\ninitialization error (x{})!!!'.format(error_count))
             #print(e_msg)
             #import pdb; pdb.set_trace()
-    env.spec.timestep_limit = timstep_limit+100
+    env.spec.timestep_limit = timstep_limit
 
     total_reward = 0
     error_sim = 0;
@@ -80,7 +80,7 @@ class CMATrainPar(object):
                 print('\ntimeout error (x{})!!!'.format(error_count))
                 #print(e_msg)
 
-        for total_reward in v_total_reward:
+        for total_reward, i_params in zip(v_total_reward, v_params):
             if self.best_total_reward  < total_reward:
                 filename = "./optim_data/cma/" + trial_name + "best_w.txt"
                 print("\n")
@@ -92,7 +92,7 @@ class CMATrainPar(object):
                 print("----")
                 print("")
                 self.best_total_reward  = total_reward
-                np.savetxt(filename, params)
+                np.savetxt(filename, i_params)
 
         return [-r for r in v_total_reward]
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     solver.set_verbose(True)
 
     x0 = params
-    sigma = .01
+    sigma = .1
 
     res = solver.solve(x0, sigma)
     print(res)
