@@ -79,7 +79,7 @@ class LocoCtrl(object):
         'GAS_2_FG',
         'SOL_1_FG',
         'TA_5_PG', 'TA_5_G_SOL',
-        'c0_f', 'cv_f', # 'theta_tgt_f', 'c0_f', 'cv_f',
+        'theta_tgt_f', 'c0_f', 'cv_f',
         'HAB_3_PG', 'HAB_3_DG', 'HAB_6_PG',
         'HAD_3_PG', 'HAD_3_DG', 'HAD_6_PG'
         ]
@@ -251,13 +251,13 @@ class LocoCtrl(object):
         cp['TA_5_G_SOL'] = params[cp_map['TA_5_G_SOL']] *0.5
 
         if self.control_dimension == 3:
-            if len(params) != 45:
+            if len(params) != 46:
                 raise Exception('error in the number of params!!')
-            cp['theta_tgt_f'] = 0.0
-            cp['c0_f'] = params[cp_map['c0_f']] *20*np.pi/180 + 70*np.pi/180
+            cp['theta_tgt_f'] = params[cp_map['theta_tgt_f']] *5.0*np.pi/180
+            cp['c0_f'] = params[cp_map['c0_f']] *20*np.pi/180 + 60*np.pi/180
             cp['cv_f'] = params[cp_map['cv_f']] *10*np.pi/180
-            cp['HAB_3_PG'] = params[cp_map['HAB_3_PG']] *2.0
-            cp['HAB_3_DG'] = params[cp_map['HAB_3_DG']] *0.3
+            cp['HAB_3_PG'] = params[cp_map['HAB_3_PG']] *10.0
+            cp['HAB_3_DG'] = params[cp_map['HAB_3_DG']] *1
             cp['HAB_6_PG'] = params[cp_map['HAB_6_PG']] *2.0
             cp['HAD_3_PG'] = params[cp_map['HAD_3_PG']] *2.0
             cp['HAD_3_DG'] = params[cp_map['HAD_3_DG']] *0.3

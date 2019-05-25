@@ -392,9 +392,22 @@ class L2M2019Env(OsimEnv):
                     'soleus': 'SOL',
                     'tib_ant': 'TA'}
 
-    INIT_POSE = np.array([0, 0.94, 0, # forward speed, pelvis height, trunk lean
-                    0*np.pi/180, 0*np.pi/180, 0*np.pi/180, 0*np.pi/180, # [right] hip adduct, hip flex, knee extend, ankle flex
-                    0*np.pi/180, 0*np.pi/180, 0*np.pi/180, 0*np.pi/180]) # [left] hip adduct, hip flex, knee extend, ankle flex
+    #INIT_POSE = np.array([0, 0.94, 0, # forward speed, pelvis height, trunk lean
+    #                0*np.pi/180, 0*np.pi/180, 0*np.pi/180, 0*np.pi/180, # [right] hip adduct, hip flex, knee extend, ankle flex
+    #                0*np.pi/180, 0*np.pi/180, 0*np.pi/180, 0*np.pi/180]) # [left] hip adduct, hip flex, knee extend, ankle flex
+    INIT_POSE = np.array([
+        1.699999999999999956e+00, # forward speed
+        .5, # rightward speed
+        9.023245653983965608e-01, # pelvis height
+        2.012303881285582852e-01, # trunk lean
+        0*np.pi/180, # [right] hip adduct
+        -6.952390849304798115e-01, # hip flex
+        -3.231075259785813891e-01, # knee extend
+        1.709011708233401095e-01, # ankle flex
+        0*np.pi/180, # [left] hip adduct
+        -5.282323914341899296e-02, # hip flex
+        -8.041966456860847323e-01, # knee extend
+        -1.745329251994329478e-01]) # ankle flex
 
     def get_model_key(self):
         return self.model
@@ -462,16 +475,17 @@ class L2M2019Env(OsimEnv):
         QQ[1] = 0*np.pi/180 # roll
         QQ[2] = 0*np.pi/180 # yaw
         QQDot[3] = init_pose[0] # forward speed
-        QQ[4] = init_pose[1] # pelvis height
-        QQ[0] = -init_pose[2] # trunk lean: (+) backward
-        QQ[7] = -init_pose[3] # right hip abduct
-        QQ[6] = -init_pose[4] # right hip flex
-        QQ[13] = init_pose[5] # right knee extend
-        QQ[15] = -init_pose[6] # right ankle flex
-        QQ[10] = -init_pose[7] # left hip adduct
-        QQ[9] = -init_pose[8] # left hip flex
-        QQ[14] = init_pose[9] # left knee extend
-        QQ[16] = -init_pose[10] # left ankle flex
+        QQDot[5] = init_pose[1] # forward speed
+        QQ[4] = init_pose[2] # pelvis height
+        QQ[0] = -init_pose[3] # trunk lean: (+) backward
+        QQ[7] = -init_pose[4] # right hip abduct
+        QQ[6] = -init_pose[5] # right hip flex
+        QQ[13] = init_pose[6] # right knee extend
+        QQ[15] = -init_pose[7] # right ankle flex
+        QQ[10] = -init_pose[8] # left hip adduct
+        QQ[9] = -init_pose[9] # left hip flex
+        QQ[14] = init_pose[10] # left knee extend
+        QQ[16] = -init_pose[11] # left ankle flex
 
         state.setQ(QQ)
         state.setU(QQDot)
