@@ -7,19 +7,16 @@ import numpy as np
 
 trial_name = 'trial_190510_L2M2019CtrlEnv_2D_d0_'
 
+params = np.ones(46)
 params = np.ones(37)
 #params = np.loadtxt('./optim_data/cma/trial_181029_walk_3D_noStand_8_best.txt')
 N_POP = 16 # 8 = 4 + floor(3*log(37))
 N_PROC = 2
 TIMEOUT = 10*60
 
-init_pose = np.array([1.5, .9, 10*np.pi/180, # forward speed, pelvis height, trunk lean
-        -3*np.pi/180, -30*np.pi/180, -10*np.pi/180, 10*np.pi/180, # [right] hip abduct, hip extend, knee extend, ankle extend
-        -3*np.pi/180, 5*np.pi/180, -40*np.pi/180, -0*np.pi/180]) # [left] hip abduct, hip extend, knee extend, ankle extend
-
 def f_ind(n_gen, i_worker, params):
-    flag_model = '2D'
-    flag_ctrl_mode = '2D'
+    flag_model = '3D'
+    flag_ctrl_mode = '3D'
     seed = None
     difficulty = 0
     sim_dt = 0.01
@@ -33,7 +30,7 @@ def f_ind(n_gen, i_worker, params):
             locoCtrl = OsimReflexCtrl(mode=flag_ctrl_mode, dt=sim_dt)
             env = L2M2019Env(seed=seed, difficulty=difficulty, visualize=False)
             env.change_model(model=flag_model, difficulty=difficulty, seed=seed)
-            obs_dict = env.reset(project=True, seed=seed, init_pose=init_pose, obs_as_dict=True)
+            obs_dict = env.reset(project=True, seed=seed, obs_as_dict=True)
             init_error = False
         except Exception as e_msg:
             error_count += 1

@@ -7,7 +7,7 @@ import numpy as np
 
 trial_name = 'trial_190515_L2M2019CtrlEnv_d0_'
 
-#params_all0 = np.ones(45+8)
+#params_all0 = np.ones(46+8)
 params_all0 = np.ones(37+8)
 #params_all0 = np.loadtxt('./optim_data/cma/trial_181029_walk_3D_noStand_8_best.txt')
 N_POP = 18 # 8 = 4 + floor(3*log(37+8)) # 9 = 4 + floor(3*log(45+8))
